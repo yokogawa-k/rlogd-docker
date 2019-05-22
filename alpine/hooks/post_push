@@ -1,0 +1,53 @@
+#!/bin/bash
+
+# https://docs.docker.com/docker-hub/builds/advanced/
+# SOURCE_BRANCH: the name of the branch or the tag that is currently being tested.
+# SOURCE_COMMIT: the SHA1 hash of the commit being tested.
+# COMMIT_MSG: the message from the commit being tested and built.
+# DOCKER_REPO: the name of the Docker repository being built.
+# DOCKERFILE_PATH: the dockerfile currently being built.
+# DOCKER_TAG: the Docker repository tag being built.
+# IMAGE_NAME: the name and tag of the Docker repository being built. (This variable is a combination of DOCKER_REPO:DOCKER_TAG.)
+
+set -e
+set -x
+set -u
+
+RLOGD_COMMIT_HASH=$(docker inspect -f '{{ index .Config.Labels "Commit_Hash" }}' ${IMAGE_NAME})
+
+docker tag ${IMAGE_NAME} ${DOCKER_REPO}:${RLOGD_COMMIT_HASH}
+docker push ${DOCKER_REPO}:${RLOGD_COMMIT_HASH}
+
+RLOG_REPOS_DIR=~/rlogd/
+git clone https://github.com/pandax381/rlogd.git ${RLOG_REPOS_DIR}
+cd ${RLOG_REPOS_DIR}
+
+# ex. v0.4.8
+if git describe --tags --exact-match ${RLOGD_COMMIT_HASH}; then
+  RLOGD_GIT_TAG=$(git describe --tags --exact-match ${RLOGD_COMMIT_HASH})
+else
+  exit
+fi
+
+GIT_TAG=${RLOGD_GIT_TAG#v} # ex. v0.4.8 -> 0.4.8
+while :;do
+  # exit when version 0
+  if [[ ${GIT_TAG} == 0 ]]; then
+    exit
+  fi
+
+  # ex. 0.4.8-alpine
+  NEW_DOCKER_TAG=${GIT_TAG}-${DOCKER_TAG}
+  docker tag ${IMAGE_NAME} ${DOCKER_REPO}:${NEW_DOCKER_TAG}
+  docker push ${DOCKER_REPO}:${NEW_DOCKER_TAG}
+
+  # ex. 0.4.8 -> 0.4
+  NEW_GIT_TAG=${GIT_TAG%.*}
+  # ex. 1.xx ==> 1 and no more split
+  if [[ ${NEW_GIT_TAG} == ${GIT_TAG} ]]; then
+     exit
+  fi
+
+  GIT_TAG=${NEW_GIT_TAG}
+done
+
