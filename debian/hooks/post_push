@@ -15,7 +15,7 @@ set -u
 
 RLOGD_COMMIT_HASH=$(docker inspect -f '{{ index .Config.Labels "Commit_Hash" }}' ${IMAGE_NAME})
 
-for tag in {${RLOGD_COMMIT_HASH},debian};do 
+for tag in {${RLOGD_COMMIT_HASH},latest};do 
   docker tag ${IMAGE_NAME} ${DOCKER_REPO}:${tag}
   docker push ${DOCKER_REPO}:${tag}
 done
@@ -39,7 +39,7 @@ while :;do
   fi
 
   # ex. 0.4.8-debian
-  NEW_DOCKER_TAG=${GIT_TAG}-debian
+  NEW_DOCKER_TAG=${GIT_TAG}-${DOCKER_TAG}
   docker tag ${IMAGE_NAME} ${DOCKER_REPO}:${NEW_DOCKER_TAG}
   docker push ${DOCKER_REPO}:${NEW_DOCKER_TAG}
 
