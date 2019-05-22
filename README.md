@@ -12,10 +12,8 @@ Rlogd is an open source software for reliable log collection.
 
 ## Supported tags and respective `Dockerfile` links
 
-- `stretch`, `debian`, `latest`
-  [(debian/Dockerfile)][rlogd-debian]
-- `alpine`
-  [(alpine/Dockerfile)][rlogd-alpine]
+- [`stretch`, `debian`, `latest` (debian/Dockerfile)][rlogd-debian]
+- [`alpine` (alpine/Dockerfile)][rlogd-alpine]
 
 ## How to use this image
 
@@ -30,3 +28,6 @@ Starting a rloggerd instance requires additional commands:
 ```
 $ docker run --name some-rloggerd -d rlogd/rlogd:tag rloggerd -f 1 -l unix:///path/to/socket -t target -b path/to/buffer
 ```
+
+[rlogd-debian]: https://github.com/yokogawa-k/rlogd-docker/debian/Dockerfile
+[rlogd-alpine]: https://github.com/yokogawa-k/rlogd-docker/alpine/Dockerfile
