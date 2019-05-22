@@ -12,8 +12,8 @@ Rlogd is an open source software for reliable log collection.
 
 ## Supported tags and respective `Dockerfile` links
 
-- [`stretch`, `debian`, `latest` (stretch/Dockerfile)](stretch/Dockerfile)
-- [`alpine` (alpine/Dockerfile)](alpine/Dockerfile)
+- `stretch`, `debian`, `latest` [(debian/Dockerfile)]
+- `alpine` [(alpine/Dockerfile)]
 
 ## How to use this image
 

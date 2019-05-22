@@ -15,7 +15,7 @@ set -u
 
 RLOGD_COMMIT_HASH=$(docker inspect -f '{{ index .Config.Labels "Commit_Hash" }}' ${IMAGE_NAME})
 
-for tag in {${RLOGD_COMMIT_HASH},latest};do 
+for tag in {${RLOGD_COMMIT_HASH},stretch,latest};do 
   docker tag ${IMAGE_NAME} ${DOCKER_REPO}:${tag}
   docker push ${DOCKER_REPO}:${tag}
 done
