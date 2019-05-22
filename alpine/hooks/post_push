@@ -15,8 +15,8 @@ set -u
 
 RLOGD_COMMIT_HASH=$(docker inspect -f '{{ index .Config.Labels "Commit_Hash" }}' ${IMAGE_NAME})
 
-docker tag ${IMAGE_NAME} ${DOCKER_REPO}:${RLOGD_COMMIT_HASH}
-docker push ${DOCKER_REPO}:${RLOGD_COMMIT_HASH}
+docker tag ${IMAGE_NAME} ${DOCKER_REPO}:${RLOGD_COMMIT_HASH}-${DOCKER_TAG}
+docker push ${DOCKER_REPO}:${RLOGD_COMMIT_HASH}-${DOCKER_TAG}
 
 RLOG_REPOS_DIR=~/rlogd/
 git clone https://github.com/pandax381/rlogd.git ${RLOG_REPOS_DIR}
