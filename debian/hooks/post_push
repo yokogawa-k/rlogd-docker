@@ -38,10 +38,13 @@ while :;do
     exit
   fi
 
-  # ex. 0.4.8-debian
+  # ex. tag = 0.4.8-debian
   NEW_DOCKER_TAG=${GIT_TAG}-${DOCKER_TAG}
   docker tag ${IMAGE_NAME} ${DOCKER_REPO}:${NEW_DOCKER_TAG}
   docker push ${DOCKER_REPO}:${NEW_DOCKER_TAG}
+  # ex. tag = 0.4.8
+  docker tag ${IMAGE_NAME} ${DOCKER_REPO}:${GIT_TAG}
+  docker push ${DOCKER_REPO}:${GIT_TAG}
 
   # ex. 0.4.8 -> 0.4
   NEW_GIT_TAG=${GIT_TAG%.*}
