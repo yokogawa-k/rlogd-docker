@@ -1,0 +1,37 @@
+version: '3.7'
+
+services:
+  client:
+    build: ${DIST:-debian}
+    image: rlogd/rlogd:${DIST:-debian}
+    init: true
+    volumes:
+      - socket:/var/run/rlogd/
+    command: ["tail", "-f", "/dev/null"]
+  rloggerd:
+    build: ${DIST:-debian}
+    image: rlogd/rlogd:${DIST:-debian}
+    volumes:
+      - socket:/var/run/rlogd/
+    command:
+      - rloggerd
+      - --debug
+      - --flush=1
+      - --listen=unix:///var/run/rlogd/rloggerd.sock
+      - --target=rlogd:10381
+  rlogd:
+    build: ${DIST:-debian}
+    image: rlogd/rlogd:${DIST:-debian}
+    volumes:
+      - socket:/var/run/rlogd/
+      - ./test/rlogd.conf:/usr/local/etc/rlogd/rlogd.conf
+      - ./test/checksum:/checksum
+    command:
+      - rlogd
+      - --debug
+      - --foreground
+      - --pid=/var/run/rlogd.pid
+      - --conf=/usr/local/etc/rlogd/rlogd.conf
+
+volumes:
+  socket:
