@@ -13,6 +13,7 @@ RUN set -ex \
    gcc \
    libev-dev \
    libpcre3-dev \
+   libmsgpack-dev \
    make
 
 RUN set -ex \
@@ -39,6 +40,7 @@ RUN set -ex \
  && apt-get -y --no-install-recommends install \
    libev4 \
    libpcre3 \
+   libmsgpackc2 \
  && rm -rf /var/lib/apt/lists/*
 
 COPY --from=build /rlogd/src/rlogd /usr/local/sbin/

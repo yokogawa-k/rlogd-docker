@@ -13,6 +13,7 @@ RUN set -ex \
    libc-dev \
    libev-dev \
    pcre-dev \
+   msgpack-c-dev \
    make
 
 RUN set -ex \
@@ -38,6 +39,7 @@ RUN set -ex \
    libc6-compat \
    libev \
    pcre \
+   msgpack-c \
  && rm -rf /var/lib/apt/lists/*
 
 COPY --from=build /rlogd/src/rlogd /usr/local/sbin/
