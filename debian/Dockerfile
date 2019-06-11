@@ -1,4 +1,4 @@
-ARG COMMIT_HASH=3ebdb4c1967b8ba76c6fece3d3a00b14474546b3
+ARG COMMIT_HASH=6a2cdfd8b8b3e6fdcbdc8d93632bdd2dd4ab3553
 
 FROM debian:stretch AS build
 
