@@ -9,6 +9,7 @@ jobs:
           name: build
           command: |
             make build-all
+      - run:
           name: running test 
           command: |
             make test-all
