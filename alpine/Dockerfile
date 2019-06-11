@@ -1,4 +1,4 @@
-ARG COMMIT_HASH=a03a2e58baef837fd15902144b9516b32319b6a0
+ARG COMMIT_HASH=70f4ada10533cd35bf0b185c9f76ea755a056c2d
 
 FROM alpine:3.9 AS build
 
@@ -13,6 +13,7 @@ RUN set -ex \
    libc-dev \
    libev-dev \
    pcre-dev \
+   msgpack-c-dev \
    make
 
 RUN set -ex \
@@ -38,6 +39,7 @@ RUN set -ex \
    libc6-compat \
    libev \
    pcre \
+   msgpack-c \
  && rm -rf /var/lib/apt/lists/*
 
 COPY --from=build /rlogd/src/rlogd /usr/local/sbin/
